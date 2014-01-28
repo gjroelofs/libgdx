@@ -35,14 +35,15 @@ import com.badlogic.gdx.utils.Pools;
  * previously.
  * @author Josh Street */
 public class Touchpad extends Widget {
+	
 	private TouchpadStyle style;
 	boolean touched;
-	private float deadzoneRadius;
-	private final Circle knobBounds = new Circle(0, 0, 0);
-	private final Circle touchBounds = new Circle(0, 0, 0);
-	private final Circle deadzoneBounds = new Circle(0, 0, 0);
-	private final Vector2 knobPosition = new Vector2();
-	private final Vector2 knobPercent = new Vector2();
+	protected float deadzoneRadius;
+	protected final Circle knobBounds = new Circle(0, 0, 0);
+	protected final Circle touchBounds = new Circle(0, 0, 0);
+	protected final Circle deadzoneBounds = new Circle(0, 0, 0);
+	protected final Vector2 knobPosition = new Vector2();
+	protected final Vector2 knobPercent = new Vector2();
 
 	/** @param deadzoneRadius The distance in pixels from the center of the touchpad required for the knob to be moved. */
 	public Touchpad (float deadzoneRadius, Skin skin) {

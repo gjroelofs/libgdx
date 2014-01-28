@@ -28,7 +28,8 @@ import com.esotericsoftware.tablelayout.Cell;
  * the image.
  * @author Nathan Sweet */
 public class ImageButton extends Button {
-	private final Image image;
+	
+	protected final Image image;
 	private ImageButtonStyle style;
 
 	public ImageButton (Skin skin) {

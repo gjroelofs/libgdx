@@ -33,7 +33,8 @@ import com.badlogic.gdx.math.Vector2;
  * });
  * </pre> */
 public class InputListener implements EventListener {
-	static private final Vector2 tmpCoords = new Vector2();
+	
+	static protected final Vector2 tmpCoords = new Vector2();
 
 	public boolean handle (Event e) {
 		if (!(e instanceof InputEvent)) return false;

@@ -33,7 +33,7 @@ public class TextArea extends TextField {
 	IntArray linesBreak;
 
 	/** Last text processed. This attribute is used to avoid unnecessary computations while calculating offsets **/
-	private String lastText;
+	protected String lastText;
 
 	/** Current line for the cursor **/
 	int cursorLine;
@@ -42,7 +42,7 @@ public class TextArea extends TextField {
 	int firstLineShowing;
 
 	/** Number of lines showed by the text area **/
-	private int linesShowing;
+	protected int linesShowing;
 
 	/** Variable to maintain the x offset of the cursor when moving up and down. If it's set to -1, the offset is reset **/
 	float moveOffset;

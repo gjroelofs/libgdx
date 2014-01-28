@@ -51,10 +51,10 @@ public class SelectBox extends Widget implements Disableable {
 	SelectBoxStyle style;
 	String[] items;
 	int selectedIndex = 0;
-	private final TextBounds bounds = new TextBounds();
+	protected final TextBounds bounds = new TextBounds();
 	ListScroll scroll;
-	private float prefWidth, prefHeight;
-	private ClickListener clickListener;
+	protected float prefWidth, prefHeight;
+	protected ClickListener clickListener;
 	int maxListCount;
 	boolean disabled;
 
@@ -246,12 +246,12 @@ public class SelectBox extends Widget implements Disableable {
 		final Vector2 screenCoords = new Vector2();
 
 		public ListScroll () {
-			super(null, style.scrollStyle);
+			super(null, SelectBox.this.style.scrollStyle);
 
 			setOverscroll(false, false);
 			setFadeScrollBars(false);
-
-			list = new List(new Object[0], style.listStyle);
+			
+			list = new List(new Object[0], SelectBox.this.style.listStyle);
 			setWidget(list);
 			list.addListener(new InputListener() {
 				public boolean mouseMoved (InputEvent event, float x, float y) {

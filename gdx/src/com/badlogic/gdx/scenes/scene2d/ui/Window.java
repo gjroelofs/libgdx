@@ -36,17 +36,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
  * children to the window, it can be convenient to call {@link #pack()} to size the window to the size of the children.
  * @author Nathan Sweet */
 public class Window extends Table {
-	static private final Vector2 tmpPosition = new Vector2();
-	static private final Vector2 tmpSize = new Vector2();
-	static private final int MOVE = 1 << 5;
+
+	static protected final Vector2 tmpPosition = new Vector2();
+	static protected final Vector2 tmpSize = new Vector2();
+	static protected final int MOVE = 1 << 5;
 
 	private WindowStyle style;
 	private String title;
-	private BitmapFontCache titleCache;
+	protected BitmapFontCache titleCache;
 	boolean isMovable = true, isModal, isResizable;
 	int resizeBorder = 8;
 	boolean dragging;
-	private int titleAlignment = Align.center;
+	protected int titleAlignment = Align.center;
 	boolean keepWithinStage = true;
 	Table buttonTable;
 

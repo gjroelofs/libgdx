@@ -31,20 +31,21 @@ import com.badlogic.gdx.utils.StringBuilder;
  * The preferred size of the label is determined by the actual text bounds, unless {@link #setWrap(boolean) word wrap} is enabled.
  * @author Nathan Sweet */
 public class Label extends Widget {
+	
 	static private final Color tempColor = new Color();
 
 	private LabelStyle style;
-	private final TextBounds bounds = new TextBounds();
-	private final StringBuilder text = new StringBuilder();
-	private StringBuilder tempText;
-	private BitmapFontCache cache;
-	private int labelAlign = Align.left;
-	private HAlignment lineAlign = HAlignment.LEFT;
-	private boolean wrap;
-	private float lastPrefHeight;
-	private boolean sizeInvalid = true;
+	protected final TextBounds bounds = new TextBounds();
+	protected final StringBuilder text = new StringBuilder();
+	protected StringBuilder tempText;
+	protected BitmapFontCache cache;
+	protected int labelAlign = Align.left;
+	protected HAlignment lineAlign = HAlignment.LEFT;
+	protected boolean wrap;
+	protected float lastPrefHeight;
+	protected boolean sizeInvalid = true;
 	private float fontScaleX = 1, fontScaleY = 1;
-	private boolean ellipse;
+	protected boolean ellipse;
 
 	public Label (CharSequence text, Skin skin) {
 		this(text, skin.get(LabelStyle.class));

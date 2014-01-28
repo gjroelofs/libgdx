@@ -58,16 +58,16 @@ import com.badlogic.gdx.utils.Timer.Task;
 public class TextField extends Widget implements Disableable {
 	static boolean isMac = System.getProperty("os.name").contains("Mac");
 
-	static private final char BACKSPACE = 8;
+	static protected final char BACKSPACE = 8;
 	static protected final char ENTER_DESKTOP = '\r';
 	static protected final char ENTER_ANDROID = '\n';
-	static private final char TAB = '\t';
-	static private final char DELETE = 127;
-	static private final char BULLET = 149;
+	static protected final char TAB = '\t';
+	static protected final char DELETE = 127;
+	static protected final char BULLET = 149;
 
-	static private final Vector2 tmp1 = new Vector2();
-	static private final Vector2 tmp2 = new Vector2();
-	static private final Vector2 tmp3 = new Vector2();
+	static protected final Vector2 tmp1 = new Vector2();
+	static protected final Vector2 tmp2 = new Vector2();
+	static protected final Vector2 tmp3 = new Vector2();
 
 	protected String text;
 	protected int cursor, selectionStart;
@@ -76,7 +76,7 @@ public class TextField extends Widget implements Disableable {
 	protected final FloatArray glyphAdvances = new FloatArray(), glyphPositions = new FloatArray();
 
 	TextFieldStyle style;
-	private String messageText;
+	protected String messageText;
 	protected CharSequence displayText;
 	private Clipboard clipboard;
 	InputListener inputListener;
@@ -84,18 +84,18 @@ public class TextField extends Widget implements Disableable {
 	TextFieldFilter filter;
 	OnscreenKeyboard keyboard = new DefaultOnscreenKeyboard();
 	boolean focusTraversal = true, onlyFontChars = true, disabled, rightAligned;
-	private float selectionX, selectionWidth;
+	protected float selectionX, selectionWidth;
 
 	boolean passwordMode;
-	private StringBuilder passwordBuffer;
-	private char passwordCharacter = BULLET;
+	protected StringBuilder passwordBuffer;
+	protected char passwordCharacter = BULLET;
 
 	protected float textHeight, textOffset;
 	float renderOffset;
-	private int visibleTextStart, visibleTextEnd;
-	private int maxLength = 0;
+	protected int visibleTextStart, visibleTextEnd;
+	protected int maxLength = 0;
 
-	private float blinkTime = 0.32f;
+	protected float blinkTime = 0.32f;
 	boolean cursorOn = true;
 	long lastBlink;
 

@@ -57,10 +57,10 @@ public class Table extends WidgetGroup {
 		if (Toolkit.instance == null) Toolkit.instance = new TableToolkit();
 	}
 
-	private final TableLayout layout;
+	protected final TableLayout layout;
 	private Drawable background;
 	private boolean clip;
-	private Skin skin;
+	protected Skin skin;
 
 	public Table () {
 		this(null);

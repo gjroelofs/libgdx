@@ -35,9 +35,9 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * are added and removed.
  * @author Nathan Sweet */
 public class WidgetGroup extends Group implements Layout {
-	private boolean needsLayout = true;
-	private boolean fillParent;
-	private boolean layoutEnabled = true;
+	protected boolean needsLayout = true;
+	protected boolean fillParent;
+	protected boolean layoutEnabled = true;
 
 	public float getMinWidth () {
 		return getPrefWidth();

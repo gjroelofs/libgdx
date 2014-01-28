@@ -22,11 +22,12 @@ import com.badlogic.gdx.utils.Array;
  * functionality and more. A button may only be in one group at a time.
  * @author Nathan Sweet */
 public class ButtonGroup {
+	
 	private final Array<Button> buttons = new Array();
 	private Array<Button> checkedButtons = new Array(1);
 	private int minCheckCount, maxCheckCount = 1;
-	private boolean uncheckLast = true;
-	private Button lastChecked;
+	protected boolean uncheckLast = true;
+	protected Button lastChecked;
 
 	public ButtonGroup () {
 		minCheckCount = 1;
@@ -128,6 +129,20 @@ public class ButtonGroup {
 
 	public Array<Button> getButtons () {
 		return buttons;
+	}
+
+	/**
+	 * @return the minCheckCount
+	 */
+	public int getMinCheckCount () {
+		return minCheckCount;
+	}
+
+	/**
+	 * @return the maxCheckCount
+	 */
+	public int getMaxCheckCount () {
+		return maxCheckCount;
 	}
 
 	/** Sets the minimum number of buttons that must be checked. Default is 1. */

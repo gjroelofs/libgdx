@@ -29,11 +29,11 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * heights, plus spacing between them if set. The min size is the preferred size and the max size is 0.
  * @author Nathan Sweet */
 public class VerticalGroup extends WidgetGroup {
-	private float prefWidth, prefHeight;
-	private boolean sizeInvalid = true;
-	private int alignment;
-	private boolean reverse, round = true;
-	private float spacing;
+	protected float prefWidth, prefHeight;
+	protected boolean sizeInvalid = true;
+	protected int alignment;
+	protected boolean reverse, round = true;
+	protected float spacing;
 
 	public VerticalGroup () {
 		setTouchable(Touchable.childrenOnly);

@@ -43,6 +43,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
  * @author mzechner
  * @author Nathan Sweet */
 public class ScrollPane extends WidgetGroup {
+	
 	private ScrollPaneStyle style;
 	private Actor widget;
 
@@ -50,10 +51,10 @@ public class ScrollPane extends WidgetGroup {
 	final Rectangle vScrollBounds = new Rectangle();
 	final Rectangle hKnobBounds = new Rectangle();
 	final Rectangle vKnobBounds = new Rectangle();
-	private final Rectangle widgetAreaBounds = new Rectangle();
-	private final Rectangle widgetCullingArea = new Rectangle();
-	private final Rectangle scissorBounds = new Rectangle();
-	private ActorGestureListener flickScrollListener;
+	protected final Rectangle widgetAreaBounds = new Rectangle();
+	protected final Rectangle widgetCullingArea = new Rectangle();
+	protected final Rectangle scissorBounds = new Rectangle();
+	protected ActorGestureListener flickScrollListener;
 
 	boolean scrollX, scrollY;
 	boolean vScrollOnRight = true;
@@ -64,20 +65,20 @@ public class ScrollPane extends WidgetGroup {
 	boolean touchScrollH, touchScrollV;
 	final Vector2 lastPoint = new Vector2();
 	float areaWidth, areaHeight;
-	private boolean fadeScrollBars = true, smoothScrolling = true;
+	protected boolean fadeScrollBars = true, smoothScrolling = true;
 	float fadeAlpha, fadeAlphaSeconds = 1, fadeDelay, fadeDelaySeconds = 1;
 	boolean cancelTouchFocus = true;
 
 	boolean flickScroll = true;
 	float velocityX, velocityY;
 	float flingTimer;
-	private boolean overscrollX = true, overscrollY = true;
+	protected boolean overscrollX = true, overscrollY = true;
 	float flingTime = 1f;
-	private float overscrollDistance = 50, overscrollSpeedMin = 30, overscrollSpeedMax = 200;
-	private boolean forceScrollX, forceScrollY;
-	private boolean disableX, disableY;
-	private boolean clamp = true;
-	private boolean scrollbarsOnTop;
+	protected float overscrollDistance = 50, overscrollSpeedMin = 30, overscrollSpeedMax = 200;
+	protected boolean forceScrollX, forceScrollY;
+	protected boolean disableX, disableY;
+	protected boolean clamp = true;
+	protected boolean scrollbarsOnTop;
 	int draggingPointer = -1;
 
 	/** @param widget May be null. */

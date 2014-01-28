@@ -28,7 +28,8 @@ import com.esotericsoftware.tablelayout.Cell;
 /** A button with a child {@link Label} to display text.
  * @author Nathan Sweet */
 public class TextButton extends Button {
-	private final Label label;
+	
+	protected final Label label;
 	private TextButtonStyle style;
 
 	public TextButton (String text, Skin skin) {

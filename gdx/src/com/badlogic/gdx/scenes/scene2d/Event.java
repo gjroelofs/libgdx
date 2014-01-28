@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * @see InputEvent
  * @see Actor#fire(Event) */
 public class Event implements Poolable {
+	
 	private Stage stage;
 	private Actor targetActor;
 	private Actor listenerActor;

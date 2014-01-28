@@ -56,25 +56,25 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * @author mzechner
  * @author Nathan Sweet */
 public class Stage extends InputAdapter implements Disposable {
-	static private final Vector2 actorCoords = new Vector2();
-	static private final Vector3 cameraCoords = new Vector3();
+	static protected final Vector2 actorCoords = new Vector2();
+	static protected final Vector3 cameraCoords = new Vector3();
 
-	private float viewportX, viewportY, viewportWidth, viewportHeight;
-	private float width, height;
-	private float gutterWidth, gutterHeight;
+	protected float viewportX, viewportY, viewportWidth, viewportHeight;
+	protected float width, height;
+	protected float gutterWidth, gutterHeight;
 	private Camera camera;
-	private final Batch batch;
-	private final boolean ownsBatch;
-	private final Group root;
-	private final Vector2 stageCoords = new Vector2();
-	private final Actor[] pointerOverActors = new Actor[20];
-	private final boolean[] pointerTouched = new boolean[20];
-	private final int[] pointerScreenX = new int[20];
-	private final int[] pointerScreenY = new int[20];
-	private int mouseScreenX, mouseScreenY;
-	private Actor mouseOverActor;
-	private Actor keyboardFocus, scrollFocus;
-	private final SnapshotArray<TouchFocus> touchFocuses = new SnapshotArray(true, 4, TouchFocus.class);
+	protected final Batch batch;
+	protected final boolean ownsBatch;
+	protected final Group root;
+	protected final Vector2 stageCoords = new Vector2();
+	protected final Actor[] pointerOverActors = new Actor[20];
+	protected final boolean[] pointerTouched = new boolean[20];
+	protected final int[] pointerScreenX = new int[20];
+	protected final int[] pointerScreenY = new int[20];
+	protected int mouseScreenX, mouseScreenY;
+	protected Actor mouseOverActor;
+	protected Actor keyboardFocus, scrollFocus;
+	protected final SnapshotArray<TouchFocus> touchFocuses = new SnapshotArray(true, 4, TouchFocus.class);
 
 	/** Creates a stage with a {@link #setViewport(float, float, boolean) viewport} equal to the device screen resolution. The stage
 	 * will use its own {@link Batch}. */

@@ -39,16 +39,17 @@ import com.badlogic.gdx.utils.Pools;
  * @author mzechner
  * @author Nathan Sweet */
 public class Slider extends Widget implements Disableable {
+	
 	private SliderStyle style;
-	private float min, max, stepSize;
-	private float value, animateFromValue;
-	private float sliderPos;
-	private final boolean vertical;
+	protected float min, max, stepSize;
+	protected float value, animateFromValue;
+	protected float sliderPos;
+	protected final boolean vertical;
 	int draggingPointer = -1;
-	private float animateDuration, animateTime;
-	private Interpolation animateInterpolation = Interpolation.linear;
-	private float[] snapValues;
-	private float threshold;
+	protected float animateDuration, animateTime;
+	protected Interpolation animateInterpolation = Interpolation.linear;
+	protected float[] snapValues;
+	protected float threshold;
 	boolean disabled;
 
 	public Slider (float min, float max, float stepSize, boolean vertical, Skin skin) {

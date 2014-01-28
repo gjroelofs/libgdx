@@ -32,10 +32,11 @@ import com.badlogic.gdx.utils.Scaling;
  * Only when using a {@link TextureRegionDrawable} will the actor's scale, rotation, and origin be used when drawing.
  * @author Nathan Sweet */
 public class Image extends Widget {
-	private Scaling scaling;
-	private int align = Align.center;
-	private float imageX, imageY, imageWidth, imageHeight;
-	private Drawable drawable;
+	
+	protected Scaling scaling;
+	protected int align = Align.center;
+	protected float imageX, imageY, imageWidth, imageHeight;
+	protected Drawable drawable;
 
 	/** Creates an image with no region or patch, stretched, and aligned center. */
 	public Image () {
@@ -158,7 +159,7 @@ public class Image extends Widget {
 		if (scaling == null) throw new IllegalArgumentException("scaling cannot be null.");
 		this.scaling = scaling;
 	}
-
+	
 	public void setAlign (int align) {
 		this.align = align;
 	}

@@ -38,16 +38,16 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * @author Nathan Sweet */
 public class SplitPane extends WidgetGroup {
 	SplitPaneStyle style;
-	private Actor firstWidget, secondWidget;
+	protected Actor firstWidget, secondWidget;
 	boolean vertical;
 	float splitAmount = 0.5f, minAmount, maxAmount = 1;
-	private float oldSplitAmount;
+	protected float oldSplitAmount;
 
-	private Rectangle firstWidgetBounds = new Rectangle();
-	private Rectangle secondWidgetBounds = new Rectangle();
+	protected Rectangle firstWidgetBounds = new Rectangle();
+	protected Rectangle secondWidgetBounds = new Rectangle();
 	Rectangle handleBounds = new Rectangle();
-	private Rectangle firstScissors = new Rectangle();
-	private Rectangle secondScissors = new Rectangle();
+	protected Rectangle firstScissors = new Rectangle();
+	protected Rectangle secondScissors = new Rectangle();
 
 	Vector2 lastPoint = new Vector2();
 	Vector2 handlePosition = new Vector2();

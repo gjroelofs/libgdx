@@ -37,19 +37,20 @@ import com.badlogic.gdx.utils.Pools;
  * {@link ChangeEvent} is fired when the selected node changes.
  * @author Nathan Sweet */
 public class Tree extends WidgetGroup {
+	
 	static boolean isMac = System.getProperty("os.name").contains("Mac");
 
 	TreeStyle style;
 	final Array<Node> rootNodes = new Array();
 	final Array<Node> selectedNodes = new Array();
 	float ySpacing = 4, iconSpacingLeft = 2, iconSpacingRight = 2, padding = 0, indentSpacing;
-	private float leftColumnWidth, prefWidth, prefHeight;
-	private boolean sizeInvalid = true;
+	protected float leftColumnWidth, prefWidth, prefHeight;
+	protected boolean sizeInvalid = true;
 	boolean multiSelect = true;
 	boolean toggleSelect = true;
-	private Node foundNode;
+	protected Node foundNode;
 	Node overNode;
-	private ClickListener clickListener;
+	protected ClickListener clickListener;
 
 	public Tree (Skin skin) {
 		this(skin.get(TreeStyle.class));

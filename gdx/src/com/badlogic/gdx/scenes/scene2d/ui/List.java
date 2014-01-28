@@ -36,13 +36,14 @@ import com.badlogic.gdx.utils.Pools;
  * The preferred size of the list is determined by the text bounds of the items and the size of the {@link ListStyle#selection}.
  * @author mzechner */
 public class List extends Widget implements Cullable {
+	
 	private ListStyle style;
 	private String[] items;
 	private int selectedIndex;
-	private Rectangle cullingArea;
-	private float prefWidth, prefHeight;
-	private float itemHeight;
-	private float textOffsetX, textOffsetY;
+	protected Rectangle cullingArea;
+	protected float prefWidth, prefHeight;
+	protected float itemHeight;
+	protected float textOffsetX, textOffsetY;
 	private boolean selectable = true;
 
 	public List (Object[] items, Skin skin) {

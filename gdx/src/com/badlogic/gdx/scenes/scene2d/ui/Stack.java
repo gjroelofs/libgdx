@@ -39,8 +39,9 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * smallest max size of any children.
  * @author Nathan Sweet */
 public class Stack extends WidgetGroup {
-	private float prefWidth, prefHeight, minWidth, minHeight, maxWidth, maxHeight;
-	private boolean sizeInvalid = true;
+	
+	protected float prefWidth, prefHeight, minWidth, minHeight, maxWidth, maxHeight;
+	protected boolean sizeInvalid = true;
 
 	public Stack () {
 		setTransform(false);

@@ -33,9 +33,10 @@ import com.badlogic.gdx.utils.Scaling;
  * @see Button
  * @author Nathan Sweet */
 public class ImageTextButton extends Button {
-	private final Image image;
-	private final Label label;
-	private ImageTextButtonStyle style;
+	
+	protected final Image image;
+	protected final Label label;
+	protected ImageTextButtonStyle style;
 
 	public ImageTextButton (String text, Skin skin) {
 		this(text, skin.get(ImageTextButtonStyle.class));

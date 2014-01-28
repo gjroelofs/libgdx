@@ -32,14 +32,14 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * @author mzechner
  * @author Nathan Sweet */
 public class Group extends Actor implements Cullable {
-	private final SnapshotArray<Actor> children = new SnapshotArray(true, 4, Actor.class);
-	private final Matrix3 localTransform = new Matrix3();
-	private final Matrix3 worldTransform = new Matrix3();
-	private final Matrix4 batchTransform = new Matrix4();
-	private final Matrix4 oldBatchTransform = new Matrix4();
-	private boolean transform = true;
-	private Rectangle cullingArea;
-	private final Vector2 point = new Vector2();
+	protected final SnapshotArray<Actor> children = new SnapshotArray(true, 4, Actor.class);
+	protected final Matrix3 localTransform = new Matrix3();
+	protected final Matrix3 worldTransform = new Matrix3();
+	protected final Matrix4 batchTransform = new Matrix4();
+	protected final Matrix4 oldBatchTransform = new Matrix4();
+	protected boolean transform = true;
+	protected Rectangle cullingArea;
+	protected final Vector2 point = new Vector2();
 
 	public void act (float delta) {
 		super.act(delta);

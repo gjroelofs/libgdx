@@ -33,9 +33,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
  * @author mzechner
  * @author Nathan Sweet */
 public class Widget extends Actor implements Layout {
-	private boolean needsLayout = true;
-	private boolean fillParent;
-	private boolean layoutEnabled = true;
+	protected boolean needsLayout = true;
+	protected boolean fillParent;
+	protected boolean layoutEnabled = true;
 
 	public float getMinWidth () {
 		return getPrefWidth();

@@ -37,11 +37,12 @@ import com.badlogic.gdx.utils.ObjectMap;
  * {@link #result(Object)} is called and the dialog is removed from the stage.
  * @author Nathan Sweet */
 public class Dialog extends Window {
+	
 	/** The time in seconds that dialogs will fade in and out. Set to zero to disable fading. */
 	static public float fadeDuration = 0.4f;
 
 	Table contentTable, buttonTable;
-	private Skin skin;
+	protected Skin skin;
 	ObjectMap<Actor, Object> values = new ObjectMap();
 	boolean cancelHide;
 	Actor previousKeyboardFocus, previousScrollFocus;

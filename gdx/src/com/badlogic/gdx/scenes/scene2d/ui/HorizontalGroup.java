@@ -33,11 +33,12 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * {@link Label} class with text wrapping turned on.
  * @author Nathan Sweet */
 public class HorizontalGroup extends WidgetGroup {
-	private float prefWidth, prefHeight;
-	private boolean sizeInvalid = true;
+	
+	protected float prefWidth, prefHeight;
+	protected boolean sizeInvalid = true;
 	private int alignment;
-	private boolean reverse, round = true;
-	private float spacing;
+	protected boolean reverse, round = true;
+	protected float spacing;
 
 	public HorizontalGroup () {
 		setTouchable(Touchable.childrenOnly);
@@ -47,6 +48,13 @@ public class HorizontalGroup extends WidgetGroup {
 	 * @see Align */
 	public void setAlignment (int alignment) {
 		this.alignment = alignment;
+	}
+
+	/**
+	 * @return the alignment
+	 */
+	public int getAlignment () {
+		return alignment;
 	}
 
 	/** If true, the children will be ordered from right to left rather than the default left to right. */
