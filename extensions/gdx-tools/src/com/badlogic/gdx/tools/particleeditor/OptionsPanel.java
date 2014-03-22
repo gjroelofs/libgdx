@@ -17,10 +17,12 @@
 package com.badlogic.gdx.tools.particleeditor;
 
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -82,54 +84,63 @@ class OptionsPanel extends EditorPanel {
 
 	private void initializeComponents () {
 		JPanel contentPanel = getContentPanel();
+		contentPanel.removeAll();
+		contentPanel.setLayout(new GridBagLayout());
 		{
 			JLabel label = new JLabel("Additive:");
-			contentPanel.add(label, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+			contentPanel.add(label, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
 				new Insets(6, 0, 0, 0), 0, 0));
 		}
 		{
 			additiveCheckbox = new JCheckBox();
-			contentPanel.add(additiveCheckbox, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST,
+			additiveCheckbox.setToolTipText("Enables additive blending for rendering, defined as: src(SRC_ALPHA), trg(ONE)");
+			contentPanel.add(additiveCheckbox, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
 				GridBagConstraints.NONE, new Insets(6, 6, 0, 0), 0, 0));
 		}
 		{
 			JLabel label = new JLabel("Attached:");
-			contentPanel.add(label, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
-				new Insets(6, 0, 0, 0), 0, 0));
+			contentPanel.add(label, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+				new Insets(6, 30, 0, 0), 0, 0));
 		}
 		{
 			attachedCheckBox = new JCheckBox();
-			contentPanel.add(attachedCheckBox, new GridBagConstraints(1, 2, 1, 1, 1, 0, GridBagConstraints.WEST,
+			attachedCheckBox.setToolTipText("Particles move when emitter moves");
+			contentPanel.add(attachedCheckBox, new GridBagConstraints(3, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
 				GridBagConstraints.NONE, new Insets(6, 6, 0, 0), 0, 0));
 		}
 		{
 			JLabel label = new JLabel("Continuous:");
-			contentPanel.add(label, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
-				new Insets(6, 0, 0, 0), 0, 0));
+			contentPanel.add(label, new GridBagConstraints(4, 0, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+				new Insets(6, 30, 0, 0), 0, 0));
 		}
 		{
 			continuousCheckbox = new JCheckBox();
-			contentPanel.add(continuousCheckbox, new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.WEST,
+			continuousCheckbox
+				.setToolTipText("<html>Emitter restarts when duration expires, instead of when all particles expire. <br> Note that the effect never finishes if at least one emitter is continuous and non-continuous emitters will not reset.</html>");
+			contentPanel.add(continuousCheckbox, new GridBagConstraints(5, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
 				GridBagConstraints.NONE, new Insets(6, 6, 0, 0), 0, 0));
 		}
 		{
 			JLabel label = new JLabel("Aligned:");
-			contentPanel.add(label, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
-				new Insets(6, 0, 0, 0), 0, 0));
+			contentPanel.add(label, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+				new Insets(6, 30, 0, 0), 0, 0));
 		}
 		{
 			alignedCheckbox = new JCheckBox();
-			contentPanel.add(alignedCheckbox, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST,
+			alignedCheckbox.setToolTipText("Angle of particle is added to rotation");
+			contentPanel.add(alignedCheckbox, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST,
 				GridBagConstraints.NONE, new Insets(6, 6, 0, 0), 0, 0));
 		}
 		{
 			JLabel label = new JLabel("Behind:");
-			contentPanel.add(label, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE,
-				new Insets(6, 0, 0, 0), 0, 0));
+			
+			contentPanel.add(label, new GridBagConstraints(2, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH,
+				new Insets(6, 30, 0, 0), 0, 0));
 		}
 		{
 			behindCheckbox = new JCheckBox();
-			contentPanel.add(behindCheckbox, new GridBagConstraints(1, 5, 1, 1, 0, 0, GridBagConstraints.WEST,
+			behindCheckbox.setToolTipText("Unused by LibGDX");
+			contentPanel.add(behindCheckbox, new GridBagConstraints(3, 1, 1, 1, 0, 0, GridBagConstraints.WEST,
 				GridBagConstraints.NONE, new Insets(6, 6, 0, 0), 0, 0));
 		}
 	}
