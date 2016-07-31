@@ -1,6 +1,9 @@
 
 package com.badlogic.gdx.graphics.g3d.postprocessing.effects;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.postprocessing.components.PostProcessingComponent;
+import com.badlogic.gdx.graphics.g3d.postprocessing.components.depth.DepthComponent;
 import com.badlogic.gdx.graphics.g3d.postprocessing.components.normaldepth.NormalDepthComponent;
 import com.badlogic.gdx.graphics.g3d.postprocessing.components.ssao.SsaoComponent;
 import com.badlogic.gdx.graphics.g3d.postprocessing.components.ssao_composer.SsaoComposerComponent;
@@ -9,6 +12,7 @@ public class SsaoEffect extends BasePostProcessingEffect {
 	protected NormalDepthComponent normalDepthComponent;
 	protected SsaoComponent ssaoComponent;
 	protected SsaoComposerComponent ssaoComposerComponent;
+	protected DepthComponent depthComponent;
 
 	public SsaoEffect () {
 		init();
@@ -22,12 +26,33 @@ public class SsaoEffect extends BasePostProcessingEffect {
 
 	private void init () {
 		normalDepthComponent = new NormalDepthComponent();
+		depthComponent = new DepthComponent();
 		ssaoComponent = new SsaoComponent();
 		ssaoComposerComponent = new SsaoComposerComponent();
 
 		addComponent(normalDepthComponent);
 		addComponent(ssaoComponent);
-		// addComponent(ssaoComposerComponent);
+		addComponent(depthComponent);
+//		 addComponent(ssaoComposerComponent);
+	}
+	
+	public Texture render (Texture input, boolean window) {
+		Texture output = null;
+		int width = input.getWidth(), height = input.getHeight();
+
+		Texture normalDepth = normalDepthComponent.render(input, false, width, height);
+		width = normalDepthComponent.getWidth();
+		height = normalDepthComponent.getHeight();
+
+		Texture depth = depthComponent.render(input, false, width, height);
+		width = depthComponent.getWidth();
+		height = depthComponent.getHeight();		
+
+		ssaoComponent.render(normalDepth, depth, true, width, height);
+		width = depthComponent.getWidth();
+		height = depthComponent.getHeight();		
+
+		return output;
 	}
 
 	public SsaoEffect setKernelSize (int kernelSize) {

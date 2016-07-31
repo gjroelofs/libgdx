@@ -17,19 +17,24 @@ public class QuadShader implements Disposable {
 	protected Mesh mesh;
 	protected ShaderProgram program;
 	protected RenderContext context;
-	protected int u_texture;
+	protected int u_textures;	// Textures that need to be injected, by default using u_texture
 	protected QuadComponent component;
 	protected boolean dirty = true;
 
 	public QuadShader () {
+		this("u_texture");
+	}
+
+	public QuadShader (String nameTextures) {
 		mesh = new Mesh(true, 4, 0, new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE));
 		mesh.setVertices(new float[] {-1, -1, 1, -1, -1, 1, 1, 1});
 		program = new ShaderProgram(Gdx.files.classpath(getVertex()).readString(), Gdx.files.classpath(getFragment()).readString());
 		if (!program.isCompiled()) throw new GdxRuntimeException(program.getLog());
 		context = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.ROUNDROBIN));
 
-		u_texture = program.fetchUniformLocation("u_texture", false);
+		u_textures = program.fetchUniformLocation(nameTextures, false);
 	}
+
 
 	public void init (QuadComponent component) {
 		this.component = component;
@@ -66,8 +71,8 @@ public class QuadShader implements Disposable {
 		context.end();
 	}
 
-	protected void setTextures (Texture texture) {
-		program.setUniformi(u_texture, context.textureBinder.bind(texture));
+	protected void setTextures(Texture texture) {
+		program.setUniformi(u_textures, context.textureBinder.bind(texture));		
 	}
 
 	/** Override and return true if your uniforms should always be binded. If you bind a texture, you have to return true.

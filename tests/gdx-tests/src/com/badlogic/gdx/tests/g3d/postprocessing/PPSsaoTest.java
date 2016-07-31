@@ -40,6 +40,9 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -142,10 +145,10 @@ public class PPSsaoTest extends GdxTest {
 
 		// The user camera
 		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.set(0f, 0f, 0f);
-		cam.lookAt(1, 0, 0);
+		cam.position.set(3f, 3f, 3f);
+		cam.lookAt(1, 1, 1);
 		cam.near = 1f;
-		cam.far = 110f;
+		cam.far = 30f;
 		cam.up.set(0, 1, 0);
 		cam.update();
 
@@ -157,8 +160,16 @@ public class PPSsaoTest extends GdxTest {
 
 		mpb = modelBuilder.part("ball", GL20.GL_TRIANGLES, Usage.Position | Usage.Normal | Usage.ColorUnpacked, new Material(
 			ColorAttribute.createDiffuse(Color.BLUE)));
-		mpb.sphere(2f, 2f, 2f, 20, 20);
-
+		mpb.sphere(new Matrix4().translate(0, -0.0f, 0), 2f, 2f, 2f, 20, 20);
+		
+//		mpb.box(1.5f, -0.1f, 0, 1, 1, 1);
+//		
+		for (int i = 0; i < 40; i++) {
+			mpb.box(new Matrix4()
+				.rotate(new Quaternion().setEulerAngles(MathUtils.random(0f, 360f), MathUtils.random(0f, 360f), MathUtils.random(0f, 360f)))
+				.translate((float) Math.random()* 3, (float)Math.random()* 3, (float) Math.random()* 3));
+		}
+		
 		model = modelBuilder.end();
 		instance = new ModelInstance(model);
 		instances.add(instance);
@@ -214,8 +225,8 @@ public class PPSsaoTest extends GdxTest {
 		table.add(noiseSizeLabel);
 		table.row();
 
-		float initKernelSize = 4;
-		kernelSize = new Slider(1, 10, 1, false, skin);
+		float initKernelSize = 32;
+		kernelSize = new Slider(1, 64, 1, false, skin);
 		kernelSize.setValue(initKernelSize);
 		kernelSizeLabel = new Label(String.valueOf(initKernelSize), skin);
 		table.add(new Label("Kernel Size", skin));
@@ -224,8 +235,8 @@ public class PPSsaoTest extends GdxTest {
 		table.add(kernelSizeLabel);
 		table.row();
 
-		float initRadius = 1.5f;
-		radiusSlider = new Slider(0, 5, 0.5f, false, skin);
+		float initRadius = 0.5f;
+		radiusSlider = new Slider(0, 5, 0.025f, false, skin);
 		radiusSlider.setValue(initRadius);
 		radiusLabel = new Label(String.valueOf(initRadius), skin);
 		table.add(new Label("Radius", skin));
@@ -235,7 +246,7 @@ public class PPSsaoTest extends GdxTest {
 		table.row();
 
 		float initPower = 2f;
-		power = new Slider(0, 6, 1f, false, skin);
+		power = new Slider(0, 30, 0.25f, false, skin);
 		power.setValue(initPower);
 		powerLabel = new Label(String.valueOf(initPower), skin);
 		table.add(new Label("Power", skin));

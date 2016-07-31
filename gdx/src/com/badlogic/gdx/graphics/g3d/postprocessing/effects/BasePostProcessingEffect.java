@@ -24,10 +24,17 @@ public class BasePostProcessingEffect implements PostProcessingEffect {
 		Texture output = null;
 		int width = input.getWidth(), height = input.getHeight();
 
-		for (PostProcessingComponent component : components) {
+		for (int i = 0; i < components.size; i++) {
+			PostProcessingComponent component = components.get(i);
+			
+			
 			if (component == components.get(components.size - 1) && window) {
 				window2 = true;
 			}
+			
+//			window2 = i == 0;
+//			if(i > 0) continue;
+			
 			output = component.render(input, window2, width, height);
 			width = component.getWidth();
 			height = component.getHeight();
