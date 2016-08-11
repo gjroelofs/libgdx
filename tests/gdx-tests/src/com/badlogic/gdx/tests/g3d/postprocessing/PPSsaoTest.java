@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.CubemapAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.graphics.g3d.postprocessing.PostProcessingSystem;
@@ -138,6 +139,10 @@ public class PPSsaoTest extends GdxTest {
 
 		dl = new DirectionalLight().setColor(0.5f, 0.5f, 0.5f, 1).setDirection(0, -1f, 0);
 
+		float intesity = 0.9f;
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, intesity, intesity, intesity, 1f));
+		environment.set(new ColorAttribute(ColorAttribute.Ambient, intesity,intesity,intesity, 1f));
+
 		environment.add(sl);
 		environment.add(sl2);
 		environment.add(sl3);
@@ -164,11 +169,17 @@ public class PPSsaoTest extends GdxTest {
 		
 //		mpb.box(1.5f, -0.1f, 0, 1, 1, 1);
 //		
-		for (int i = 0; i < 40; i++) {
-			mpb.box(new Matrix4()
-				.rotate(new Quaternion().setEulerAngles(MathUtils.random(0f, 360f), MathUtils.random(0f, 360f), MathUtils.random(0f, 360f)))
-				.translate((float) Math.random()* 3, (float)Math.random()* 3, (float) Math.random()* 3));
-		}
+		
+//		for (int k = 0; k < 10; k++) {  
+//			mpb = modelBuilder.part("boxes", GL20.GL_TRIANGLES, Usage.Position | Usage.Normal | Usage.ColorUnpacked, new Material(
+//				ColorAttribute.createDiffuse(Color.BLUE)));
+			int offset = 5;
+			for (int i = 0; i < 10; i++) {
+				mpb.box(new Matrix4()
+					.rotate(new Quaternion().setEulerAngles(MathUtils.random(0f, 360f), MathUtils.random(0f, 360f), MathUtils.random(0f, 360f)))
+					.translate((float) Math.random()* offset, (float)Math.random()* offset, (float) Math.random()* offset));
+			}
+//		}
 		
 		model = modelBuilder.end();
 		instance = new ModelInstance(model);
@@ -330,12 +341,15 @@ public class PPSsaoTest extends GdxTest {
 	}
 
 	long lastTime;
+	
+	long counter, time;
 
 	@Override
 	public void render () {
 		final float delta = Gdx.graphics.getDeltaTime();
 		inputController.update(delta);
 
+		
 		/*
 		 * sl.position.rotate(Vector3.Y, -delta * 20f); sl.position.rotate(Vector3.X, -delta * 30f); sl.position.rotate(Vector3.Z,
 		 * -delta * 10f); sl.direction.set(Vector3.Zero.cpy().sub(sl.position));
@@ -349,6 +363,7 @@ public class PPSsaoTest extends GdxTest {
 		 * dl.direction.rotate(Vector3.X, delta * 10f);
 		 */
 
+		long then = System.nanoTime();
 		ppSystem.begin();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -363,9 +378,17 @@ public class PPSsaoTest extends GdxTest {
 		ppSystem.end();
 
 		ppSystem.render(cam, instances, environment);
+		time += System.nanoTime() - then;
 
 		stage.act(delta);
 		stage.draw();
+		
+		if(++counter > 200){
+			time /= counter;
+			System.out.println("FPS: "+ (1 / (time / 1000000000f)));
+			counter = 0;
+			time = 0;
+		}
 	}
 
 	@Override

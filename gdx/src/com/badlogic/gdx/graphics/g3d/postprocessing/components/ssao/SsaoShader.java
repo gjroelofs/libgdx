@@ -163,7 +163,7 @@ public class SsaoShader extends QuadShader {
 		for (int x = 0; x < noiseSize; x++) {
 			for (int y = 0; y < noiseSize; y++) {
 				tmpV.set(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f), 0).nor();
-				tmpV.scl(0.5f).add(0.5f);
+//				tmpV.scl(0.5f).add(0.5f);
 				pix.drawPixel(x, y, Color.rgba8888(tmpV.x, tmpV.y, tmpV.z, 1));
 			}
 		}
@@ -176,7 +176,7 @@ public class SsaoShader extends QuadShader {
 		kernelOffsets.clear();
 
 		for (int i = 0; i < kernelSize; i++) {
-			Vector3 v = new Vector3(MathUtils.random(-1f, 1f), MathUtils.random(-1, 1f), MathUtils.random(-1f, -0.1f)).nor();
+			Vector3 v = new Vector3(MathUtils.random(-1f, 1f), MathUtils.random(-1, 1f), MathUtils.random(0f, 1f)).nor();
 			
 			float scale = (float)i / (float)kernelSize;
 			v.scl(Interpolation.linear.apply(0.1f, 1f, scale * scale));

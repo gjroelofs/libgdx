@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.postprocessing.components.depth.DepthCompon
 import com.badlogic.gdx.graphics.g3d.postprocessing.components.normaldepth.NormalDepthComponent;
 import com.badlogic.gdx.graphics.g3d.postprocessing.components.ssao.SsaoComponent;
 import com.badlogic.gdx.graphics.g3d.postprocessing.components.ssao_composer.SsaoComposerComponent;
+import com.sun.org.apache.xml.internal.serializer.OutputPropertyUtils;
 
 public class SsaoEffect extends BasePostProcessingEffect {
 	protected NormalDepthComponent normalDepthComponent;
@@ -33,26 +34,28 @@ public class SsaoEffect extends BasePostProcessingEffect {
 		addComponent(normalDepthComponent);
 		addComponent(ssaoComponent);
 		addComponent(depthComponent);
-//		 addComponent(ssaoComposerComponent);
+		addComponent(ssaoComposerComponent);
 	}
 	
 	public Texture render (Texture input, boolean window) {
 		Texture output = null;
 		int width = input.getWidth(), height = input.getHeight();
 
-		Texture normalDepth = normalDepthComponent.render(input, false, width, height);
-		width = normalDepthComponent.getWidth();
-		height = normalDepthComponent.getHeight();
-
 		Texture depth = depthComponent.render(input, false, width, height);
 		width = depthComponent.getWidth();
-		height = depthComponent.getHeight();		
+		height = depthComponent.getHeight();
 
-		ssaoComponent.render(normalDepth, depth, true, width, height);
-		width = depthComponent.getWidth();
-		height = depthComponent.getHeight();		
+		Texture normalDepth = normalDepthComponent.render(input, false, width, height);
+		width = normalDepthComponent.getWidth();
+		height = normalDepthComponent.getHeight();		
 
-		return output;
+		Texture ssao = ssaoComponent.render(normalDepth, depth, true, width, height);
+		width = ssaoComponent.getWidth();
+		height = ssaoComponent.getHeight();				
+
+		//output = ssaoComposerComponent.render(ssao, true, width, height);	
+
+		return ssao;
 	}
 
 	public SsaoEffect setKernelSize (int kernelSize) {
