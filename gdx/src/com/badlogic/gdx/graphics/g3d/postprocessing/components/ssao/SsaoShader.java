@@ -19,9 +19,12 @@ public class SsaoShader extends QuadShader {
 	protected int u_tanHalfFov;
 	protected int u_aspectRatio;
 	protected int u_noiseTexture;
+	
 	protected int u_projectionMatrix;
 	protected int u_viewMatrix;
-	protected int u_inverseMatrix;
+	protected int u_inverseProjMatrix;
+	protected int u_normalViewMatrix;
+	
 	protected int u_kernelSize;
 	protected int u_screenWidth;
 	protected int u_screenHeight;
@@ -64,7 +67,9 @@ public class SsaoShader extends QuadShader {
 		u_noiseTexture = program.fetchUniformLocation("u_noiseTexture", force);
 		u_projectionMatrix = program.fetchUniformLocation("u_projectionMatrix", force);
 		u_viewMatrix = program.fetchUniformLocation("u_viewMatrix", force);
-		u_inverseMatrix = program.fetchUniformLocation("u_inverseMatrix", force);
+		u_inverseProjMatrix = program.fetchUniformLocation("u_inverseProjMatrix", force);
+		u_normalViewMatrix = program.fetchUniformLocation("u_normalViewMatrix", force);
+		
 		u_kernelSize = program.fetchUniformLocation("u_kernelSize", force);
 		u_radius = program.fetchUniformLocation("u_radius", force);
 		u_screenWidth = program.fetchUniformLocation("u_screenWidth", force);
@@ -133,12 +138,17 @@ public class SsaoShader extends QuadShader {
 		PerspectiveCamera camera = (PerspectiveCamera)component.getSystem().camera;
 		Matrix4 inverseProjection = camera.projection.cpy();
 		Matrix4.inv(inverseProjection.val);
-
+		
+		Matrix4 normalView = camera.view.cpy().inv().tra();
+		
 		program.setUniformf(u_tanHalfFov, (float)Math.tan(Math.toRadians(camera.fieldOfView / 2f)));
 		program.setUniformf(u_aspectRatio, camera.viewportWidth / camera.viewportHeight);
+		
 		program.setUniformMatrix(u_projectionMatrix, camera.projection);
 		program.setUniformMatrix(u_viewMatrix, camera.view);
-		program.setUniformMatrix(u_inverseMatrix, inverseProjection);
+		program.setUniformMatrix(u_inverseProjMatrix, inverseProjection);
+		program.setUniformMatrix(u_normalViewMatrix, normalView);
+		
 		program.setUniformi(u_kernelSize, kernelSize);
 		program.setUniformf(u_screenWidth, camera.viewportHeight);
 		program.setUniformf(u_screenHeight, camera.viewportWidth);
@@ -163,7 +173,6 @@ public class SsaoShader extends QuadShader {
 		for (int x = 0; x < noiseSize; x++) {
 			for (int y = 0; y < noiseSize; y++) {
 				tmpV.set(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f), 0).nor();
-//				tmpV.scl(0.5f).add(0.5f);
 				pix.drawPixel(x, y, Color.rgba8888(tmpV.x, tmpV.y, tmpV.z, 1));
 			}
 		}

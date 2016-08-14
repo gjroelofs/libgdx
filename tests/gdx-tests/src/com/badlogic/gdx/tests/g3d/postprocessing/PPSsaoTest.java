@@ -16,6 +16,8 @@
 
 package com.badlogic.gdx.tests.g3d.postprocessing;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
@@ -167,19 +169,18 @@ public class PPSsaoTest extends GdxTest {
 			ColorAttribute.createDiffuse(Color.BLUE)));
 		mpb.sphere(new Matrix4().translate(0, -0.0f, 0), 2f, 2f, 2f, 20, 20);
 		
-//		mpb.box(1.5f, -0.1f, 0, 1, 1, 1);
-//		
+		Random rng = new Random(42);
 		
-//		for (int k = 0; k < 10; k++) {  
+		for (int k = 0; k < 10; k++) {  
 //			mpb = modelBuilder.part("boxes", GL20.GL_TRIANGLES, Usage.Position | Usage.Normal | Usage.ColorUnpacked, new Material(
 //				ColorAttribute.createDiffuse(Color.BLUE)));
 			int offset = 5;
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 2; i++) {
 				mpb.box(new Matrix4()
-					.rotate(new Quaternion().setEulerAngles(MathUtils.random(0f, 360f), MathUtils.random(0f, 360f), MathUtils.random(0f, 360f)))
-					.translate((float) Math.random()* offset, (float)Math.random()* offset, (float) Math.random()* offset));
+					.rotate(new Quaternion().setEulerAngles(rng.nextFloat() * 360, rng.nextFloat() * 360,rng.nextFloat() * 360))
+					.translate((float) rng.nextFloat()* offset, (float)rng.nextFloat()* offset, (float) rng.nextFloat() * offset));
 			}
-//		}
+		}
 		
 		model = modelBuilder.end();
 		instance = new ModelInstance(model);
@@ -247,7 +248,7 @@ public class PPSsaoTest extends GdxTest {
 		table.row();
 
 		float initRadius = 0.5f;
-		radiusSlider = new Slider(0, 5, 0.025f, false, skin);
+		radiusSlider = new Slider(0, 0.5f, 0.0025f, false, skin);
 		radiusSlider.setValue(initRadius);
 		radiusLabel = new Label(String.valueOf(initRadius), skin);
 		table.add(new Label("Radius", skin));

@@ -9,8 +9,9 @@ uniform mat4 u_projViewWorldTrans;
 
 void main() {
 	#if defined(normalFlag)
-		vec3 normal = normalize(u_normalMatrix * a_normal);
-		v_normal = normal;
+		//vec4 normali = u_projViewWorldTrans * vec4(a_normal, 1);
+		//v_normal = normali.xyz / normali.w;
+		v_normal = u_normalMatrix * a_normal;
 	#endif // normalFlag
 
 	gl_Position = u_projViewWorldTrans * vec4(a_position, 1.0);

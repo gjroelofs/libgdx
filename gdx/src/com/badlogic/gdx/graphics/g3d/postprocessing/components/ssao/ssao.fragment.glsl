@@ -27,7 +27,8 @@ uniform sampler2D u_depthTexture;
 
 uniform mat4 u_projectionMatrix;
 uniform mat4 u_viewMatrix;
-uniform mat4 u_inverseMatrix;
+uniform mat4 u_inverseProjMatrix;
+uniform mat4 u_normalViewMatrix;
 uniform int u_kernelSize;
 uniform vec3 u_kernelOffsets[MAX_KERNEL_SIZE];
 uniform float u_radius;
@@ -86,7 +87,14 @@ float getDepth(vec2 texCoord){
 	return unpackAlt(texture(u_depthTexture, texCoord).rgba);
 }
 
-vec3 getNormal(vec2 texCoord){
+vec3 getNormalInView(vec2 texCoord){
+	vec4 normals = u_inverseProjMatrix * vec4(toNDC(texture(u_normalTexture, texCoord).rgb), 1.0);
+	normals.xyz /= normals.w;
+	
+	return normals.xyz;
+}
+
+vec3 getNormal(vec2 texCoord){	
 	return toNDC(texture(u_normalTexture, texCoord).rgb);
 }
 
@@ -194,40 +202,47 @@ float ssao3(mat3 kernelMatrix, vec4 posView){
 }
 
 
-float ssao4(mat3 kernelMatrix, vec4 posView){
+float ssao4(mat3 kernelMatrix, vec3 origin){
 	// Go through the kernel samples and create occlusion factor.	
 	float occlusion = 0.0;
 	
 	for (int i = 0; i < u_kernelSize; i++)
 	{
-		// Reorient sample vector in view space ...
-		vec3 sampleVectorView = kernelMatrix * u_kernelOffsets[i];
+		// Reorient sample vector in view space and calculate sample point.
+		vec3 sample = kernelMatrix * u_kernelOffsets[i];
+		sample = origin + u_radius * sample;
 		
-		// ... and calculate sample point.
-		vec4 samplePointView = posView + u_radius * vec4(sampleVectorView, 0.0);
-		
-		// Project point and calculate NDC.		
-		vec4 samplePointNDC = u_projectionMatrix * samplePointView;		
-		samplePointNDC.xyz /= samplePointNDC.w;
-		
-		// Create texture coordinate out of it.		
-		vec2 samplePointTexCoord = samplePointNDC.xy * 0.5 + 0.5;   
-		
+		// Project and get texture coordinates
+		vec4 offset = vec4(sample, 1.0);
+		offset = u_projectionMatrix * offset;		
+		offset.xyz /= offset.w;
+		offset.xy = offset.xy * 0.5 + 0.5;		
+				
 		// Get sample out of depth texture
-
-		float zSceneNDC = linearizeDepth2(getDepth(samplePointTexCoord));		
-		float delta = samplePointNDC.z - zSceneNDC;
+		float sampleDepth = linearizeDepth2(getDepth(offset.xy));		
+		float delta = offset.z - sampleDepth;
 		
-		float rangeCheck = smoothstep(0.0, 1.0, u_radius / abs(posView.z - zSceneNDC));
-		occlusion += rangeCheck * step(zSceneNDC, samplePointNDC.z);	
+		//if(true)
+			//return offset.z;
+		
+		//if(delta > 0)
+			//occlusion += 1.0;
+		
+		if (delta > CAP_MIN_DISTANCE && delta < CAP_MAX_DISTANCE)
+		{
+			occlusion += 1.0;
+		}
+		
+		//float rangeCheck = smoothstep(0.0, 1.0, u_radius / abs(origin.z - sampleDepth));
+		//occlusion += rangeCheck * step(sampleDepth, offset.z);	
 	}
 	
 	// No occlusion gets white, full occlusion gets black.
 	occlusion = 1.0 - occlusion / float(u_kernelSize);
-	return pow(occlusion, u_power);
+	return pow(occlusion, u_power);	
 }
 
-vec4 getViewPos(vec2 texCoord)
+vec3 getViewPos(vec2 texCoord)
 {
 	// Calculate out of the fragment in screen space the view space position.
 	vec2 texCoordtoNDCed = toNDC(texCoord);
@@ -236,11 +251,11 @@ vec4 getViewPos(vec2 texCoord)
 	float z = linearizeDepth2(getDepth(texCoord));
 	
 	vec4 posProj = vec4(texCoordtoNDCed.xy, z, 1.0);
-	vec4 posView = u_inverseMatrix * posProj;
+	vec4 posView = u_inverseProjMatrix * posProj;
 	
 	posView /= posView.w;
 	
-	return posView;
+	return posView.xyz;
 }
 
 
@@ -251,8 +266,10 @@ void main() {
 	// Get the depth and normals
 	float depth = getDepth(v_uv);
 	vec3 normal = getNormal(v_uv);
+	float linDepth = linearizeDepth2(getDepth(v_uv));
 		
-	vec4 iNorm = u_viewMatrix * vec4(normal, 1.0);
+	// Receive normals in world space, transform to view space
+	vec4 iNorm = u_normalViewMatrix * vec4(normal, 1.0);
 	normal = normalize(iNorm.xyz / iNorm.w);	
 				
 	// Get noise texture coords:
@@ -263,24 +280,16 @@ void main() {
 	vec3 rvec = toNDC(texture(u_noiseTexture, noiseTexCoords).xyz);
 	vec3 tangent = normalize(rvec - normal * dot(rvec, normal));
 	vec3 bitangent = cross(normal, tangent);
-	mat3 kernelBasis = mat3(normalize(tangent), normalize(normal), normalize(bitangent));
-		
+	mat3 kernelBasis = mat3(tangent, bitangent, normal);
+	
 	// Debug visualization
-	//gl_FragColor = vec4(depth, depth, depth, 1);
-	//depth = linearizeDepth2(depth) / u_zFar;
-	//gl_FragColor = vec4(depth, depth, depth, 1);
-	//gl_FragColor = texture(u_depthTexture, v_uv).rgba;
-	gl_FragColor = vec4(normal, 1.0);
-	//gl_FragColor = vec4(v_uv, 0, 1);
-	//gl_FragColor = vec4(v_viewRay, 1);	 // Correct view_ray
-	//gl_FragColor = vec4(position, 1);
-	//gl_FragColor = vec4(origin, 1);
-	//gl_FragColor = getViewPos(v_uv);
+	//gl_FragColor = vec4(vec3(depth), 1);
+	//gl_FragColor = vec4(vec3(linDepth), 1);
+	gl_FragColor = vec4(normal * 0.5 + 0.5, 1.0);
+	//gl_FragColor = vec4(getViewPos(v_uv), 1);
 	//gl_FragColor = texture2D(u_noiseTexture, v_uv).rgba;
 	
-	//gl_FragColor = vec4(ssao4(kernelBasis, getViewPos(v_uv)));
-	//vec3 viewRay = v_viewRay;
-	//viewRay.z = linearizeDepth2(depth);
+	//gl_FragColor = vec4(vec3(ssao4(kernelBasis, getViewPos(v_uv))), 1.0);
 	//gl_FragColor = vec4(ssao(kernelBasis, v_viewRay));
 	//gl_FragColor = vec4(ssao(kernelBasis, getViewPos(v_uv).xyz));
 }

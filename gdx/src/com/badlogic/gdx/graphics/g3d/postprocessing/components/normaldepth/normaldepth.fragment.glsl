@@ -4,10 +4,10 @@ varying vec3 v_normal;
 
 void main() {
 	#if defined(normalFlag) 
-		vec3 normal = v_normal * 0.5 + 0.5;
+		vec3 normal = v_normal;
 	#else
 		vec3 normal = vec3(0.0);
 	#endif // normalFlag
 
-	gl_FragColor = vec4(normal.x, normal.y, normal.z, gl_FragCoord.z);
+	gl_FragColor = vec4(normal * 0.5 + 0.5, 1);
 }

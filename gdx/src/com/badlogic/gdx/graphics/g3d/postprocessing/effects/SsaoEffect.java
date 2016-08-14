@@ -55,7 +55,7 @@ public class SsaoEffect extends BasePostProcessingEffect {
 
 		//output = ssaoComposerComponent.render(ssao, true, width, height);	
 
-		return ssao;
+		return output;
 	}
 
 	public SsaoEffect setKernelSize (int kernelSize) {
