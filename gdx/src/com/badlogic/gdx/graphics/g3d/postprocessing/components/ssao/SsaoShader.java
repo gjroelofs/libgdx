@@ -185,7 +185,7 @@ public class SsaoShader extends QuadShader {
 		kernelOffsets.clear();
 
 		for (int i = 0; i < kernelSize; i++) {
-			Vector3 v = new Vector3(MathUtils.random(-1f, 1f), MathUtils.random(-1, 1f), MathUtils.random(0f, 1f)).nor();
+			Vector3 v = new Vector3(MathUtils.random(-1f, 1f), MathUtils.random(-1, 1f), MathUtils.random(0.2f, 1f)).nor();
 			
 			float scale = (float)i / (float)kernelSize;
 			v.scl(Interpolation.linear.apply(0.1f, 1f, scale * scale));

@@ -17,12 +17,12 @@ float getOcclusionBlurred() {
 			offset += hlim;
 			offset *= texelSize;
 					
-			result += texture2D(u_texture, v_uv + offset).a;
+			result += texture2D(u_texture, v_uv + offset).r;
 		}
 	}
 	return result / (u_blurSize * u_blurSize);
 }
 
 void main() {
-	gl_FragColor = texture2D(u_mainTexture, v_uv) * getOcclusionBlurred();
+	gl_FragColor = texture2D(u_mainTexture, v_uv) *  getOcclusionBlurred();
 }

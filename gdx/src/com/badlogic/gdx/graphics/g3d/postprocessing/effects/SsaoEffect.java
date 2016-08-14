@@ -49,13 +49,13 @@ public class SsaoEffect extends BasePostProcessingEffect {
 		width = normalDepthComponent.getWidth();
 		height = normalDepthComponent.getHeight();		
 
-		Texture ssao = ssaoComponent.render(normalDepth, depth, true, width, height);
+		Texture ssao = ssaoComponent.render(normalDepth, depth, false, width, height);
 		width = ssaoComponent.getWidth();
 		height = ssaoComponent.getHeight();				
 
-		//output = ssaoComposerComponent.render(ssao, true, width, height);	
+		output = ssaoComposerComponent.render(ssao, true, width, height);	
 
-		return output;
+		return ssao;
 	}
 
 	public SsaoEffect setKernelSize (int kernelSize) {

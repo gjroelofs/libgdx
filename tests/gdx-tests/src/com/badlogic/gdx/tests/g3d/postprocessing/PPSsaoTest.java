@@ -248,7 +248,7 @@ public class PPSsaoTest extends GdxTest {
 		table.row();
 
 		float initRadius = 0.5f;
-		radiusSlider = new Slider(0, 0.5f, 0.0025f, false, skin);
+		radiusSlider = new Slider(0, 2.5f, 0.0025f, false, skin);
 		radiusSlider.setValue(initRadius);
 		radiusLabel = new Label(String.valueOf(initRadius), skin);
 		table.add(new Label("Radius", skin));
