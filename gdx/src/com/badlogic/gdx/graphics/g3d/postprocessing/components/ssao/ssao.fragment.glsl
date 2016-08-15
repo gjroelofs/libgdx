@@ -122,16 +122,21 @@ float ssao(mat3 kernelMatrix, vec3 origin){
 		offset.xy = offset.xy * 0.5 + 0.5;		
 				
 		// Get sample out of depth texture
+		//float sampleDepth = linearizeDepth2(getDepth(offset.xy)); 
+		//occlusion += (-sampleDepth >= sample.z ? 1.0 : 0.0);  
+		
+		
 		float sampleDepth = linearizeDepth2(getDepth(offset.xy));		
 		float delta = offset.z - sampleDepth;
 		
 		//if(delta > 0 && delta < u_radius)
 		//	occlusion += 1,0;
 								
-	    float rangeCheck = abs(offset.z - sampleDepth) < u_radius ? 1.0 : 0.0;
-	    occlusion += (sampleDepth <= offset.z ? 1.0 : 0.0) * rangeCheck;
-		//float rangeCheck = smoothstep(0.0, 1.0, u_radius / abs(origin.z - sampleDepth));
-		//occlusion += rangeCheck * step(sampleDepth, offset.z);	
+	    //float rangeCheck = abs(offset.z - sampleDepth) < u_radius ? 1.0 : 0.0;
+	    //occlusion += (sampleDepth <= offset.z ? 1.0 : 0.0) * rangeCheck;
+		
+		float rangeCheck = smoothstep(0.0, 1.0, u_radius / abs(-origin.z - sampleDepth));
+		occlusion += rangeCheck * step(sampleDepth, offset.z);	
 	}
 	
 	// No occlusion gets white, full occlusion gets black.
@@ -150,8 +155,7 @@ void main() {
 	float linDepth = linearizeDepth2(getDepth(v_uv));
 				
 	// Receive normals in world space, transform to view space
-	vec4 iNorm = u_normalViewMatrix * vec4(normal, 1.0);
-	normal = normalize(iNorm.xyz / iNorm.w);	
+	normal = mat3(u_viewMatrix) * normal;
 				
 	// Get noise texture coords:
 	vec2 noiseTexCoords = vec2(textureSize(u_depthTexture, 0)) / vec2(textureSize(u_noiseTexture, 0));
@@ -162,7 +166,7 @@ void main() {
 	vec3 tangent = normalize(rvec - normal * dot(rvec, normal));
 	vec3 bitangent = cross(normal, tangent);
 	mat3 kernelBasis = mat3(tangent, bitangent, normal);
-	
+		
 	// Debug visualization
 	//gl_FragColor = vec4(vec3(depth), 1);
 	//gl_FragColor = vec4(vec3(linDepth), 1);

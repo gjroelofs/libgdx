@@ -18,8 +18,8 @@ noperspective out vec3 v_viewRay;
 void main() {
 	v_uv.xy = a_position.xy * 0.5 + 0.5;
 	v_viewRay = vec3(
-		a_position.x * u_aspectRatio * u_tanHalfFov,
-		a_position.y * u_tanHalfFov, 
+		a_position.x,
+		a_position.y, 
 		1.0
 	);
 	
